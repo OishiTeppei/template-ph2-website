@@ -1,4 +1,4 @@
-version: '3.8'
+
 # 各コンテナの設定
 services:
   # phpサーバー

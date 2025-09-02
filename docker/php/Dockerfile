@@ -3,7 +3,7 @@ RUN go get -d -v github.com/mailhog/mhsendmail \
   && cd /go/src/github.com/mailhog/mhsendmail/ \
   && GOOS=linux GOARCH=arm64 go build -o mhsendmail .
 
-FROM php:fpm-buster
+FROM php:fpm-bullseye
 # タイムゾーン(東京)
 ENV TZ Asia/Tokyo
 # 色々パッケージとか追加(パッケージの操作管理などに使うツール類？とmysqliパッケージ)
@@ -21,3 +21,9 @@ RUN chmod +x /usr/local/bin/mhsendmail \
   && echo 'sendmail_path = "/usr/local/bin/mhsendmail --smtp-addr=mailhog:1025"' > /usr/local/etc/php/conf.d/sendmail.ini
 
 COPY src /usr/share/nginx/html
+
+
+
+FROM php:8.1-cli
+# Composer の最新版を install
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer

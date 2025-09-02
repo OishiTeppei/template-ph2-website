@@ -13,6 +13,7 @@
    * @description 問題と回答の定数
    * @type {QUIZ[]}
    */
+
   const ALL_QUIZ = [
     {
       id: 1,
@@ -131,13 +132,15 @@
    * @description quizArrayに並び替えたクイズを格納
    * @type {Array}
    */
-  const quizArray = shuffle(ALL_QUIZ)
+  const quizArray = ALL_QUIZ
 
   /**
    * @type {string}
    * @description 生成したクイズのHTMLを #js-quizContainer に挿入
    */
 
+  console.log(quizArray);
+  console.log(quizContainer);
   quizContainer.innerHTML = quizArray.map((quizItem, index) => {
     return createQuizHtml(quizItem, index)
   }).join('')
@@ -146,7 +149,7 @@
    * @type {NodeListOf<Element>}
    * @description すべての問題を取得
    */
-  const allQuiz  = document.querySelectorAll('.js-quiz');
+  const allQuiz = document.querySelectorAll('.js-quiz');
 
   /**
    * @description buttonタグにdisabledを付与
@@ -206,3 +209,81 @@
     })
   })
 }
+
+
+
+
+
+// 'use strict';
+
+// {
+//   const quizContainer = document.getElementById('js-quizContainer');
+
+//   // 問題のHTMLを生成する関数
+//   const createQuizHtml = (quizItem, questionNumber) => {
+//     const answersHtml = quizItem.answers.map((answer, answerIndex) => `
+//       <li class="p-quiz-box__answer__item">
+//         <button class="p-quiz-box__answer__button js-answer" data-answer="${answerIndex}" data-correct="${answerIndex === quizItem.correctNumber ? 'true' : 'false'}">
+//           ${answer}<i class="u-icon__arrow"></i>
+//         </button>
+//       </li>
+//     `).join('');
+
+//     const noteHtml = quizItem.note ? `<cite class="p-quiz-box__note"><i class="u-icon__note"></i>${quizItem.note}</cite>` : '';
+
+//     return `
+//       <section class="p-quiz-box js-quiz" data-quiz="${questionNumber}">
+//         <div class="p-quiz-box__question">
+//           <h2 class="p-quiz-box__question__title">
+//             <span class="p-quiz-box__label">Q${questionNumber + 1}</span>
+//             <span class="p-quiz-box__question__title__text">${quizItem.question}</span>
+//           </h2>
+//         </div>
+//         <div class="p-quiz-box__answer">
+//           <span class="p-quiz-box__label p-quiz-box__label--accent">A</span>
+//           <ul class="p-quiz-box__answer__list">
+//             ${answersHtml}
+//           </ul>
+//           <div class="p-quiz-box__answer__correct js-answerBox">
+//             <p class="p-quiz-box__answer__correct__title js-answerTitle"></p>
+//             <p class="p-quiz-box__answer__correct__content">
+//               <span class="p-quiz-box__answer__correct__content__label">A</span>
+//               <span class="js-answerText"></span>
+//             </p>
+//           </div>
+//         </div>
+//         ${noteHtml}
+//       </section>
+//     `;
+//   };
+
+//   // クイズを生成
+//   quizContainer.innerHTML = ALL_QUIZ.map((quizItem, index) => createQuizHtml(quizItem, index)).join('');
+
+//   // すべての選択肢ボタンを取得
+//   const allQuiz = document.querySelectorAll('.js-quiz');
+
+//   // クリック時の処理
+//   allQuiz.forEach(quiz => {
+//     const answers = quiz.querySelectorAll('.js-answer');
+//     const answerBox = quiz.querySelector('.js-answerBox');
+//     const answerTitle = quiz.querySelector('.js-answerTitle');
+//     const answerText = quiz.querySelector('.js-answerText');
+
+//     answers.forEach(answer => {
+//       answer.addEventListener('click', () => {
+//         const isCorrect = answer.getAttribute('data-correct') === 'true';
+
+//         // 全てのボタンを非活性化
+//         answers.forEach(button => button.disabled = true);
+
+//         // 正解・不正解メッセージを設定
+//         answerText.innerText = isCorrect ? '正解！' : '不正解...';
+//         answerTitle.innerText = isCorrect ? '正解！' : '不正解...';
+
+//         // クラス名を付ける
+//         answerBox.classList.add(isCorrect ? 'is-correct' : 'is-incorrect');
+//       });
+//     });
+//   });
+// }
