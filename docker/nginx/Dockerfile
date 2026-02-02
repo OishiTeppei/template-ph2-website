@@ -1,10 +1,8 @@
-# FROM nginx:latest
-
-FROM php:8.1-fpm  
+FROM nginx:latest
 # タイムゾーン(東京)
 ENV TZ Asia/Tokyo
 
-# PHPでMySQLを使えるようにする設定（これがないと後でデータベース接続でエラーになります）
-RUN docker-php-ext-install mysqli pdo_mysql
+# nginxのconfigファイル(default.conf)をコピー
+COPY ./docker/nginx/*.conf /etc/nginx/conf.d/
 # このコンテナに入った時のカレントディレクトリ
 WORKDIR /var/www/html
