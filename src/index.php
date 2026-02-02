@@ -14,15 +14,16 @@ $choices = $dbh->query("SELECT * FROM choices")->fetchAll(PDO::FETCH_ASSOC);
 
 // 各問題に対してその選択肢を紐づける
 foreach ($questions as $qKey => $question) {
-    // 各問題に関連する選択肢を格納するための配列を初期化
+    // 各問題に関連する選択肢を格納するための配列を初期化、// 初期化： $question['choices'] は空の配、
     $question["choices"] = [];
     foreach ($choices as $choice) {
         if ($choice["question_id"] == $question["id"]) {
-            $question["choices"][] = $choice;  // 該当する選択肢を追加
+            $question["choices"][] = $choice;  // 該当する選択肢を追加(0,1,2,...の順)、[]がないと、毎回上書きされて、最後の選択肢しか表示されない
         }
     }
-    // 更新された問題データを$questions配列に戻す
+    // 更新された$question(問題データ)を$questions配列に戻して、$questions配列に、紐づけが完了した問題データが正しく格納されます。
     $questions[$qKey] = $question;
+    // var_dump($question);
 }
 ?>
 
@@ -103,7 +104,8 @@ foreach ($questions as $qKey => $question) {
               <?php foreach ($question["choices"] as $choice) { ?>
                 <li class="p-quiz-box__answer__item">
                   <button class="p-quiz-box__answer__button js-answer" data-answer="<?= $choice['id'] ?>" data-correct="<?= $choice['valid'] == 1 ? 'true' : 'false' ?>">
-                    <?= htmlspecialchars($choice["name"], ENT_QUOTES, 'UTF-8') ?><i class="u-icon__arrow"></i>
+                    <?= htmlspecialchars($choice["name"], ENT_QUOTES, 'UTF-8') ?>
+                    <i class="u-icon__arrow"></i>
                   </button>
                 </li>
               <?php } ?>
@@ -199,6 +201,7 @@ foreach ($questions as $qKey => $question) {
     </div>
   </footer>
   <!-- /.l-footer .p-footer -->
+
 
 </body>
 

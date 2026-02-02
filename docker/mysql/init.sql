@@ -1,7 +1,7 @@
 -- データベース作成＆選択
-CREATE DATABASE IF NOT EXISTS ph2drill;
+CREATE DATABASE IF NOT EXISTS posse;
 
-USE ph2drill;
+USE posse;
 
 -- 既存のテーブル削除
 DROP TABLE IF EXISTS choices;
@@ -10,12 +10,19 @@ DROP TABLE IF EXISTS questions;
 
 -- 問題テーブルの作成（正規化済み）
 CREATE TABLE questions (
+    -- 各行を一意に識別する自動採番の整数IDを作成し、説明文をつけた
     id INT AUTO_INCREMENT PRIMARY KEY COMMENT '問題ID',
+    -- content という名前の列に、長めのテキスト（問題文）を必ず入力するようにし、
+    -- 管理画面上では“問題内容”という説明を表示する。
     content TEXT NOT NULL COMMENT '問題内容',
+    -- 各問題に対応する画像のファイル名を保存するための文字列カラム
     image VARCHAR(255) COMMENT '画像ファイル名',
     supplement TEXT COMMENT '補足情報',
     -- ここから下はどのサイトにも入れる
+-- created_at は、データが新しく登録された瞬間に、
+-- MySQLが自動で「現在の日時」を記録するカラム
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '作成日',
+-- updated_at は、データを変更した瞬間に、MySQLが自動でその時刻を更新してくれるカラム
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日'
 );
 
@@ -24,6 +31,7 @@ CREATE TABLE choices (
     id INT AUTO_INCREMENT PRIMARY KEY COMMENT '選択肢ID',
     question_id INT NOT NULL COMMENT '紐づく問題ID',
     name VARCHAR(255) NOT NULL COMMENT '選択肢の文言',
+    -- この選択肢が正解なら1、不正解なら0。空はダメ。指定がなければ自動で0にする
     valid TINYINT(1) NOT NULL DEFAULT 0 COMMENT '正解=1 / 不正解=0',
     -- ここから下はどのサイトにも入れる
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '作成日',
@@ -88,7 +96,7 @@ VALUES
     (6, '約5倍', 1),
     (6, '約11倍', 0);
 
-
+-- ララベルでマイグレーション
 DROP TABLE IF EXISTS users;
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY COMMENT 'ID',
@@ -96,7 +104,7 @@ CREATE TABLE users (
     email VARCHAR(255) NOT NULL UNIQUE COMMENT 'メールアドレス',
     password VARCHAR(255) NOT NULL COMMENT 'パスワード'
 );
-
+-- ララベルでシーダーの処理をする
 INSERT INTO
     users (name, email, password)
 VALUES
@@ -108,7 +116,9 @@ VALUES
 
 
 
-$2y$10$CyGQ1EIbjdJPmb7EuVLV8Of85q72bwGGjwzxxNciotJ/Ywg1ED8oS
+-- $2y$10$CyGQ1EIbjdJPmb7EuVLV8Of85q72bwGGjwzxxNciotJ/Ywg1ED8oS
+
+
 -- UPDATE
 --     users
 -- SET

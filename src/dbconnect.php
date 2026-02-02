@@ -1,5 +1,5 @@
 <?php
-$dsn = 'mysql:host=db;dbname=ph2drill;charset=utf8';
+$dsn = 'mysql:host=db;dbname=posse;charset=utf8';
 $user = 'root';
 $password = 'root';
 
@@ -12,21 +12,24 @@ try {
 }
 
 // // questionsテーブル
-// $sql = 'SELECT * FROM questions';
-// $stmt = $dbh->query($sql);
-// $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// SQL文を作る
+$sql = 'SELECT * FROM questions';
+// SQLを実行する
+$stmt = $dbh->query($sql);
+// 結果を配列で取得
+$questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// echo "<h2>questionsテーブルの内容</h2>";
-// echo '<pre>';
-// var_dump($questions);
-// echo '</pre>';
+echo "<h2>questionsテーブルの内容</h2>";
+echo '<pre>';
+var_dump($questions);
+echo '</pre>';
 
 // // choicesテーブル
-// $sql = 'SELECT * FROM choices';
-// $stmt = $dbh->query($sql);
-// $choices = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$sql = 'SELECT * FROM choices';
+$stmt = $dbh->query($sql);
+$choices = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// echo "<h2>choicesテーブルの内容</h2>";
-// echo '<pre>';
-// var_dump($choices);
-// echo '</pre>';
+echo "<h2>choicesテーブルの内容</h2>";
+echo '<pre>';
+var_dump($choices);
+echo '</pre>';

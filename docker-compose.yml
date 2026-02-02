@@ -29,7 +29,7 @@ services:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=posse
     ports:
-      - 3306:3306
+      - 13306:3306
     volumes: # mysqlのテーブルやらなんやらを保存する
       - ./docker/mysql/db:/var/lib/mysql
       - ./docker/mysql:/docker-entrypoint-initdb.d
